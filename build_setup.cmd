@@ -1,6 +1,6 @@
 @echo off
-rem Builds "WildWaters PC Setup.exe" (host\installer\setup.c) from the window build (build.cmd first).
-rem   build_setup.cmd   ->  dist\WildWaters PC Setup.exe
+rem Builds "WildWaters-PC-Setup.exe" (host\installer\setup.c) from the window build (build.cmd first).
+rem   build_setup.cmd   ->  dist\WildWaters-PC-Setup.exe
 setlocal
 set "VSWHERE=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
 for /f "usebackq delims=" %%i in (`"%VSWHERE%" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do set "VSDIR=%%i"
@@ -14,7 +14,7 @@ python -I "%ROOT%tools\make_payload.py" "%ROOT%host\build-win" "%ROOT%host\insta
 if not exist "%ROOT%dist" mkdir "%ROOT%dist"
 pushd "%ROOT%host\installer"
 rc /nologo /fo setup.res setup.rc || (popd & exit /b 1)
-cl /nologo /O1 /MT /W3 /I "%ROOT%..\..\Tools\N64 tools\N64ModernRuntime\thirdparty\xxHash" setup.c setup.res /Fe:"%ROOT%dist\WildWaters PC Setup.exe" /link /SUBSYSTEM:WINDOWS comctl32.lib shell32.lib ole32.lib uuid.lib shlwapi.lib advapi32.lib user32.lib gdi32.lib || (popd & exit /b 1)
+cl /nologo /O1 /MT /W3 /I "%ROOT%..\..\Tools\N64 tools\N64ModernRuntime\thirdparty\xxHash" setup.c setup.res /Fe:"%ROOT%dist\WildWaters-PC-Setup.exe" /link /SUBSYSTEM:WINDOWS comctl32.lib shell32.lib ole32.lib uuid.lib shlwapi.lib advapi32.lib user32.lib gdi32.lib || (popd & exit /b 1)
 del setup.obj setup.res 2>nul
 popd
-echo Built "%ROOT%dist\WildWaters PC Setup.exe"
+echo Built "%ROOT%dist\WildWaters-PC-Setup.exe"

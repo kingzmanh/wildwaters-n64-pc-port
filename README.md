@@ -50,7 +50,7 @@ folder passed as `N64_TOOLS` (default: `../../Tools/N64 tools`).
 1. Put your ROM next to this file as `baserom.z64`.
 2. `N64Recomp wildwaters.toml` and `RSPRecomp recomp/aspMain.toml` (generates `RecompiledFuncs/`).
 3. `build.cmd` builds the game into `host/build-win/` (`build.cmd headless` builds the test version).
-4. `build_setup.cmd` builds `dist/WildWaters PC Setup.exe`.
+4. `build_setup.cmd` builds `dist/WildWaters-PC-Setup.exe`.
 
 Technical notes on the port, the ROM layout and everything found in it are in [NOTES.md](NOTES.md).
 
