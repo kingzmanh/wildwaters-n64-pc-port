@@ -1,0 +1,59 @@
+# N64Recomp configuration for WildWaters (Jun 15 1999 prototype, Looking Glass Studios).
+#
+# Memory layout (one flat segment, no TLB, no overlays):
+#   .text  vram 0x80008000  rom 0x001000 .. 0x80045080  (CPU code + linked RSP ucode)
+#   .data  vram 0x80045080  rom 0x03E080 .. 0x80092B40
+#   .bss   vram 0x80092B40  size 0xDA860 (cleared by the boot code)
+# RSP microcode inside .text is excluded from the function list by tools/funcfind.py:
+#   rspboot 0x80014AD0, aspMain 0x80014BA0, F3DEX2 2.07 0x800161B0, S2DEX2 2.07 0x80017540.
+# The game needs the 8MB Expansion Pak (heap and framebuffers above 0x80400000).
+
+[input]
+entrypoint = 0x80008000
+symbols_file_path = "recomp/ww.syms.toml"
+rom_file_path = "baserom.z64"
+output_func_path = "RecompiledFuncs"
+
+[patches]
+stubs = []
+
+# Debug trace (WW_TRACE_DMA=1): every ROM read through the game's loader
+# func_8000A6F4(dst, rom_offset, size).
+[[patches.hook]]
+func = "func_8000A6F4"
+before_vram = 0x8000A6F4
+text = "{ extern void ww_trace_dma(uint32_t, uint32_t, uint32_t); ww_trace_dma((uint32_t)ctx->r4, (uint32_t)ctx->r5, (uint32_t)ctx->r6); }"
+
+# Music: func_80036BC8(ctx, asset_id) plays a song asset. Records the requested id so the
+# song loader hook below knows which song is wanted (host/src/music.cpp).
+[[patches.hook]]
+func = "func_80036BC8"
+before_vram = 0x80036BC8
+text = "{ extern void ww_music_request(uint8_t*, uint32_t); ww_music_request(rdram, (uint32_t)ctx->r5); }"
+
+# func_80031034 has just DMAed the song into its buffer ($s1) and is about to start it:
+# music.cpp may replace the buffer with a restored song (converted to this libmus format).
+[[patches.hook]]
+func = "func_80031034"
+before_vram = 0x80031078
+text = "{ extern void ww_music_loaded(uint8_t*, recomp_context*, uint32_t); ww_music_loaded(rdram, ctx, (uint32_t)ctx->r17); }"
+
+# MusPtrBankSetSingle: a restored song swaps in the instrument bank it was written for.
+[[patches.hook]]
+func = "func_80019F10"
+before_vram = 0x80019F10
+text = "{ extern uint32_t ww_music_bank(uint32_t); ctx->r4 = (gpr)(int32_t)ww_music_bank((uint32_t)ctx->r4); }"
+
+# Debug trace (WW_TRACE_POS=1): kayak position from the tile streamer func_8000BC84(obj, ...):
+# obj+0x24 = x, obj+0x2C = z, current water tile id at obj+0x178.
+[[patches.hook]]
+func = "func_8000BC84"
+before_vram = 0x8000BC84
+text = "{ extern void ww_trace_pos(uint8_t*, uint32_t); ww_trace_pos(rdram, (uint32_t)ctx->r4); }"
+
+# Restored events (host/src/restored_events.cpp): the per-frame game state update func_80036628(game
+# object 0x8010B2C8) drives the attract demo ("PRESS START TO BEGIN") and "YOU SURVIVED!" at the finish.
+[[patches.hook]]
+func = "func_80036628"
+before_vram = 0x80036628
+text = "{ extern void ww_game_tick(uint8_t*, recomp_context*); ww_game_tick(rdram, ctx); }"

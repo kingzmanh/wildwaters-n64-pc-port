@@ -1,0 +1,9 @@
+# Game data, generated code and build output stay out of the graph.
+*.z64
+*.n64
+RecompiledFuncs/
+host/build-win/
+host/build-headless/
+test-shots/
+graphify-out/
+host/assets/

@@ -1,0 +1,14 @@
+# Never commit the game: the ROM, anything generated from it, or built files.
+*.z64
+*.v64
+*.n64
+RecompiledFuncs/
+host/build-*/
+host/installer/payload.bin
+host/installer/*.obj
+host/installer/*.res
+dist/
+test-shots/
+graphify-out/
+__pycache__/
+recomp/n64recomp.log

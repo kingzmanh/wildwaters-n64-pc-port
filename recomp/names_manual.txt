@@ -1,0 +1,64 @@
+# Hand-identified functions (vram size name note). Same format as libultra_matches.txt.
+# Identified by reading the code (cop0/cache use, callers, linker order) in 2026-11 RE.
+80008000      0 recomp_entrypoint     boot: clears bss, jumps to main thread setup
+800080F0      0 main_entry            idle/main setup called from boot
+800243C0      0 __osExceptionPreamble exception vector stub (jr to handler)
+800243D0      0 __ptExceptionPreamble second vector stub
+800243F0      0 __osException         exceptasm.s handler
+80024EAC      0 __osEnqueueAndYield   exceptasm.s
+80024FB4      0 __osEnqueueThread     exceptasm.s
+80024FFC      0 __osPopThread         exceptasm.s
+8002500C      0 __osDispatchThread    exceptasm.s
+800251A0      0 __osGetCause          mfc0 Cause
+800251B0      0 osGetCount            mfc0 Count
+800251C0      0 __osGetSR             mfc0 Status
+800251D0      0 osInvalDCache         cache 0x11/0x15
+80025280      0 osInvalICache         cache 0x10
+80025300      0 __osDisableInt
+80025320      0 __osRestoreInt
+80025340      0 __osProbeTLB          tlbp
+80025400      0 osSetIntMask          MI 0xA430
+800254A0      0 __osSetCompare        mtc0 Compare
+800254B0      0 __osSetFpcCsr         ctc1 $31
+800254C0      0 __osSetSR             mtc0 Status
+800254D0      0 osWritebackDCache     cache 0x19
+80025550      0 osWritebackDCacheAll  cache 1 over 8KB
+80025580      0 osMapTLBRdb           tlbwi entry 31
+800256E0      0 osDestroyThread       dequeue + dispatch
+80025860      0 osInitialize          SR/FPCSR/SP init, PIF, cache
+80026240      0 osSetEventMesg        event table 0x8015A2E8 (mq,msg) x OS_NUM_EVENTS; called with 3,4,5,8,9,14
+800263B0      0 osSetTimer            __osInsertTimer + __osSetTimerIntr
+800267E8      0 __osSetTimerIntr      Count + Compare
+80029F80      0 alSynNew
+8002AB90      0 alSynAllocFX
+8002AC70      0 osAiSetFrequency      fuzzy 0.97
+8002ADA0      0 osAiSetNextBuffer     fuzzy 0.81
+8002B430      0 __osViGetCurrentContext
+8002B440      0 osViGetCurrentFramebuffer  __osViCurr
+8002B480      0 osViGetNextFramebuffer     __osViNext
+8002B970      0 __osSiCreateAccessQueue
+8002B9C4      0 __osSiGetAccess
+8002BA30      0 __osSiRelAccess
+8002BFF0      0 __osEPiRawReadIo
+8002C140      0 __osEPiRawWriteIo
+8002C290      0 __osEPiRawStartDma
+8002C500      0 osCartRomInit
+8002C9A0      0 __osPiCreateAccessQueue
+8002C9F4      0 __osPiGetAccess
+8002CA60      0 __osPiRelAccess
+8002CB40      0 bcopy
+8002CE60      0 bzero
+8002CF00      0 strchr
+8002CF38      0 strlen
+8002CF90      0 _Litob
+8002D1E0      0 _Ldtob
+8002D6B8      0 _Genld
+8002DC60      0 _Printf
+8002E1D0      0 _Putfld
+8002F510      0 osCreatePiManager
+8002F7C4      0 __createSpeedParam
+8002F880      0 __osContRamRead
+8002FA60      0 __osContRamWrite
+80030400      0 __osPfsGetStatus
+800304EC      0 __osPfsRequestOneChannel
+80008194      0 ww_debug_printf       empty printf stub (matches osSyncPrintf's shape)

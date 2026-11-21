@@ -1,0 +1,16 @@
+# RSPRecomp config for WildWaters' audio microcode: libultra's stock aspMain
+# (byte-identical to the SDK's aspMain.o text, 0xE20 bytes, linked at vram 0x80014BA0).
+# rspboot loads it at IMEM 0x1080. Its data (vram 0x80049470) starts with the command
+# jump table at DMEM 0x10 (16 entries), which are the indirect branch targets.
+
+text_offset = 0xDBA0
+text_size = 0xE20
+text_address = 0x04001080
+rom_file_path = "../baserom.z64"
+output_file_path = "../RecompiledFuncs/rsp/aspMain.cpp"
+output_function_name = "aspMain"
+
+extra_indirect_branch_targets = [
+    0x1118, 0x1470, 0x11DC, 0x1B38, 0x1214, 0x187C, 0x1254, 0x12D0,
+    0x12EC, 0x1328, 0x140C, 0x1294, 0x1E24, 0x138C, 0x170C, 0x144C,
+]

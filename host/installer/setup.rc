@@ -1,0 +1,5 @@
+// WildWaters PC Setup: its own icon (an original drawing, no game art) + the program files (payload.bin,
+// tools/make_payload.py). The game's icon is made from the player's ROM at install time.
+1 ICON "../res/setup.ico"
+101 RCDATA "payload.bin"
+1 24 "setup.manifest"
