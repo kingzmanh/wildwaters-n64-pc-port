@@ -33,7 +33,7 @@ The game's N64 code is statically recompiled into a 64-bit Windows program
 
 ## Installing
 
-1. Download **WildWaters-PC-Setup.exe** from the [releases](https://github.com/kingzmanh/wildwaters-pc/releases).
+1. Download **WildWaters-PC-Setup.exe** from the [releases](https://github.com/kingzmanh/wildwaters-n64-pc-port/releases).
 2. Run it and choose **your own copy** of the WildWaters ROM: the June 15, 1999 prototype
    (16 MB, MD5 `b867880c96c9e8d3130dde5526c95439`; `.z64`, `.v64` or `.n64` all work).
    The ROM is not included.
