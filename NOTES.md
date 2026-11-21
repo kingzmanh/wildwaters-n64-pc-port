@@ -179,7 +179,7 @@ The window opens off-screen with no focus or taskbar button; `tools/capture.ps1`
   Steam, Stadia, Luna, Shield; Xbox via XInput/WGI. A pad in no database gets a generic layout
   (give_generic_mapping, also on hot-plug) so it works at once and can be rebound in Controls.
 
-## Installer (build_setup.cmd -> dist\WildWaters PC Setup.exe, host/installer/setup.c)
+## Installer (build_setup.cmd -> dist\WildWaters-PC-Setup.exe, host/installer/setup.c)
 - One exe: program files + VC++ runtime DLLs embedded (tools/make_payload.py -> payload.bin). The player
   picks their ROM (.z64/.v64/.n64, byte order fixed), checked with XXH3-64 0x3EF9EA187C5BBEDE (same as the
   port); stored as wildwaters.n64.proto.19990615.z64 in a portable install (portable.txt): settings, saves,
